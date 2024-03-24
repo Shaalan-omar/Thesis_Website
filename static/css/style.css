@@ -211,6 +211,10 @@ h6 {
 	width: 80%;
 	margin: 0 auto;
 }
+.icon-img {
+	width: 30px; /* Adjust the width to match the size of the Font Awesome icons */
+	height: 30px; /* Adjust the height to match the size of the Font Awesome icons */
+}
 
 .detect-btn {
 	color: #8e1efc;
@@ -319,6 +323,13 @@ h6 {
 	font-size: 13px;
 }
 .icon-border {
+	width: 45px; /* Adjust the width to match the size of the Font Awesome icons */
+	height: 45px; /* Adjust the height to match the size of the Font Awesome icons */
+	border-radius: 50%;
+	border: 2px solid #8E1EFC;
+    display: flex; /* Use flexbox to center the content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
 }
 .icon-border span {
 	display: block;

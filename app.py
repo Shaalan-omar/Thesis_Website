@@ -42,7 +42,7 @@ def process_image():
 
 @app.route('/display/<filename>')
 def display_processed_image(filename):
-    return render_template('output.html', filename=filename)
+    return render_template('display.html', filename=filename)
 
 
 if __name__ == '__main__':

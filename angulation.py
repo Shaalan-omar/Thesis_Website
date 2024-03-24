@@ -1,10 +1,21 @@
 import cv2
 import numpy as np
+import os
+import sys
 
-def main(image_path):
+def main():
     # Load the image
+    if len(sys.argv) < 2:
+        print("Usage: python script.py <string>")
+        return
+        
+    # Retrieving the string from command-line arguments
+    image_path = " ".join(sys.argv[1:])
+    
     image = cv2.imread(image_path)
-
+    filename = os.path.basename(image_path)
+    print("Processing image...")
+    
     red_color = np.array([77, 80, 178])  # BGR format
     faded_color = np.array([139, 139, 192])  # BGR format
     # Define the tolerance range for the color (adjustable)
@@ -111,8 +122,16 @@ def main(image_path):
         print("No red object found in the image.")
     else:
         # Display the image with the detected object
-        cv2.imshow('Detected Object', image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        # cv2.imshow('Detected Object', image)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
         # save the image
-        cv2.imwrite('4_angulation.jpg', image)
+        output_folder = "static/processed"
+        output_path = os.path.join(output_folder, f'processed_{filename}')
+        cv2.imwrite(output_path, image)
+        print(f'Processed image saved at: {output_path}')
+        
+
+
+if __name__ == "__main__":
+    main()
