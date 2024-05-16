@@ -42,18 +42,53 @@
       <div class="row">
         <div class="col-md-12">
           <div class="sectioner-header text-center">
-            <h3>AI-Annotated Image</h3>
+            <h3>Processed Image</h3>
             <span class="line"></span>
-            <p>The result of teeth annotation based on advanced AI algorithms.</p>
-            <div class="feature-mobile"> <img src="{{ url_for('static', filename= 'processed/' + filename) }}" alt="Processed Image" class="img-fluid wow fadeInUp"style="max-width: 500px; max-height: 500px;"/> </div>
-            <form action="/detect-image" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="filename" value="{{ filename }}">
-              <button class="btn-grad w-100 text-uppercase" style="margin-bottom: 10px;" type="submit" >Continue</button>
-          </form>
-          <form action="/detect-image" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="filename" value="{{ filename }}">
-            <button class="btn-grad w-100 text-uppercase" type="submit" >Annotate Manually</button>
-        </form>
+            <p>The result of canine impaction severity based on advanced AI algorithms.</p>
+          </div>
+          <div class="section-content text-center">
+            <div class="row">
+              <div class="col-md-4 col-sm-12">
+                <div class="media single-feature wow fadeInUp" data-wow-delay="0.2s">
+                  <div class="media-body text-right media-right-margin">
+                    <h5>Angulation</h5>
+                    <p>Severity level Left:  {{ results['left']['angulation'] }}<br>Severity level Right: {{ results['right']['angulation'] }}</p>
+                  </div>
+                  <div class="media-right icon-border"> <img src="{{ url_for('static', filename= 'images/angulation.png') }}" alt="angulation" class="img-fluid icon-img"> </div>
+                </div>
+                <div class="media single-feature wow fadeInUp" data-wow-delay="0.4s">
+                  <div class="media-body text-right media-right-margin">
+                    <h5>Apex Position</h5>
+                    <p>Severity level Left: {{ results['left']['apex_position'] }}<br>Severity level Right: {{ results['right']['apex_position'] }}</p>
+                  </div>
+                  <div class="media-right icon-border"> <img src="{{ url_for('static', filename= 'images/apex.png') }}" alt="apex" class="img-fluid icon-img"> </div>
+                </div>
+              </div>
+              <div class="col-md-4 d-none d-md-block d-lg-block">
+                <div class="feature-mobile"> <img src="{{ url_for('static', filename= 'processed/' + filename) }}" alt="Processed Image" class="img-fluid wow fadeInUp"/> </div>
+              </div>
+              <div class="col-md-4 col-sm-12">
+                <div class="media single-feature wow fadeInUp" data-wow-delay="0.2s">
+                  <div class="media-left icon-border media-right-margin"> <img src="{{ url_for('static', filename= 'images/height.png') }}" alt="height" class="img-fluid icon-img">  </div>
+                  <div class="media-body text-left">
+                    <h5>Vertical Height</h5>
+                    <p>Severity level Left: {{ results['left']['vertical_height'] }}<br>Severity level Right: {{ results['right']['vertical_height'] }}</p>
+                  </div>
+                </div>
+                <div class="media single-feature wow fadeInUp" data-wow-delay="0.4s">
+                  <div class="media-left icon-border media-right-margin"> <img src="{{ url_for('static', filename= 'images/overlap.png') }}" alt="overlap" class="img-fluid icon-img"> </div>
+                  <div class="media-body text-left">
+                    <h5>Overlapping</h5>
+                    <p>Severity level Left: {{ results['left']['overlapping'] }}<br>Severity level Right: {{ results['right']['overlapping'] }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sectioner-header text-center">
+              <h5>Recommendation</h5>
+              <p>Left: {{ results['left']['recommendation'] }}<br>Right: {{ results['right']['recommendation'] }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

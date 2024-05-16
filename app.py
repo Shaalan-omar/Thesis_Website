@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
+import subprocess
+import json
 
 app = Flask(__name__,static_url_path='/')
 
@@ -12,13 +14,41 @@ def index():
 def detection():
     return app.send_static_file('detection.html')
 
+@app.route('/about')
+def about():
+    return app.send_static_file('about.html')
+
+@app.route('/contact')
+def contact():
+    return app.send_static_file('contact.html')
+
+@app.route('/team')
+def team():
+    return app.send_static_file('team.html')
+
 @app.route('/run-script')
 def run_script():
     # Here, you can execute your Python script
     result = "Python script executed successfully!"
     return result
 
-@app.route('/process-image', methods=['POST'])
+@app.route('/detect-image', methods=['POST'])
+def detect_impact():
+    filename = request.form.get('filename')
+
+    image_path = os.path.join('static', 'processed', filename)
+
+    os.system(f'python Detect.py {image_path}')
+    
+    json_output_path = os.path.join('static', 'processed', filename.replace('.jpg', '.json'))
+    with open(json_output_path, 'r') as f:
+        results = json.load(f)
+
+    # return redirect(url_for('display_processed_image', filename=processed_image_filename, results=results))
+    return render_template('Result.html', filename=filename, results=results)
+
+
+@app.route('/AI-detected', methods=['POST'])
 def process_image():
     if 'image' not in request.files:
         return 'Error: No image uploaded', 400
@@ -31,14 +61,13 @@ def process_image():
     image_path = os.path.join('static', 'uploads', image_file.filename)
     image_file.save(image_path)
 
-    # Execute your Python script with the uploaded image as an argument
-    # Replace 'python_script.py' with the name of your Python script
-    # Ensure that the Python script is in the same directory as 'app.py'
-    os.system(f'python angulation.py {image_path}')
+    os.system(f'python YOLO.py {image_path}')
 
     # Return the filename of the processed image
-    processed_image_filename = f'processed_{image_file.filename}'
+    processed_image_filename = f'{image_file.filename}'
+    
     return redirect(url_for('display_processed_image', filename=processed_image_filename))
+
 
 @app.route('/display/<filename>')
 def display_processed_image(filename):
