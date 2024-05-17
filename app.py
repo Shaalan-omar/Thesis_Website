@@ -32,6 +32,10 @@ def run_script():
     result = "Python script executed successfully!"
     return result
 
+@app.route('/Annotation')
+def annotation():
+    return app.send_static_file('Annotation.html')
+
 @app.route('/detect-image', methods=['POST'])
 def detect_impact():
     filename = request.form.get('filename')
@@ -67,6 +71,29 @@ def process_image():
     processed_image_filename = f'{image_file.filename}'
     
     return redirect(url_for('display_processed_image', filename=processed_image_filename))
+
+
+@app.route('/Annotate-detected', methods=['POST'])
+def process_annotate():
+    if 'image' not in request.files:
+        return 'Error: No image uploaded', 400
+
+    image_file = request.files['image']
+    if image_file.filename == '':
+        return 'Error: No selected image', 400
+
+    # Save the uploaded image to a temporary location
+    image_path = os.path.join('static', 'processed', image_file.filename)
+    image_file.save(image_path)
+
+    os.system(f'python Detect.py {image_path}')
+    
+    json_output_path = os.path.join('static', 'processed', image_file.filename.replace('.jpg', '.json'))
+    with open(json_output_path, 'r') as f:
+        results = json.load(f)
+
+    # return redirect(url_for('display_processed_image', filename=processed_image_filename, results=results))
+    return render_template('Result.html', filename=image_file.filename, results=results)
 
 
 @app.route('/display/<filename>')

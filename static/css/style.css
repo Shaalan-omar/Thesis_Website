@@ -489,6 +489,18 @@ input {
 	background: linear-gradient(to left, #7a60ff, #cd9ffa);
 	cursor:pointer;
 }
+.btn-annotate {
+	padding: .7rem 2rem;
+	   display: inline-block;
+	   color: #fff;
+	   border-radius: 1rem;
+	   border: 0;
+	   margin: 10px 0px;
+	   margin-bottom: 40px;
+	   background: #7a60ff;
+	   /* background: linear-gradient(to left, #7a60ff, #cd9ffa); */
+	   cursor:pointer;
+   }
 .contact-info {
 	padding: 2rem 2rem 1rem;
 	border-radius: 8px;
